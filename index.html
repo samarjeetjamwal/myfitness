@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📅 My Weekly Weight Loss Plan • 50yr Indian Male</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .meal-card { transition: all 0.3s ease; }
+        .meal-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2); }
+        .day-header { background: linear-gradient(90deg, #166534, #4ade80); }
+        .completed { text-decoration: line-through; opacity: 0.7; }
+        select { background-color: #27272a; color: white; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen">
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-4xl font-bold text-emerald-400 flex items-center gap-3">
+                    <i class="fa-solid fa-dumbbell"></i>
+                    30-Day Strict Plan
+                </h1>
+                <p class="text-zinc-400 mt-1">94 kg → 75 kg Target | Repeat every week</p>
+                <p class="text-amber-400 text-sm mt-2">⚠️ Safe loss: 4–6 kg in first month only. Consult doctor.</p>
+            </div>
+            <div class="text-right">
+                <div class="bg-zinc-900 rounded-2xl px-6 py-3 text-sm">
+                    <div class="flex items-center gap-6">
+                        <div>
+                            <span class="text-emerald-400 font-mono text-3xl font-bold">1500–1600</span>
+                            <span class="block text-xs text-zinc-500">kcal/day</span>
+                        </div>
+                        <div class="h-8 w-px bg-zinc-700"></div>
+                        <div>
+                            <span class="text-emerald-400 font-mono text-3xl font-bold">45–60</span>
+                            <span class="block text-xs text-zinc-500">min exercise</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-zinc-900 rounded-3xl p-6 mb-8">
+            <div class="flex flex-wrap items-center gap-6">
+                <!-- Day Dropdown -->
+                <div>
+                    <p class="text-zinc-400 text-sm mb-2 font-medium">SELECT DAY</p>
+                    <select id="dayFilter" onchange="filterByDay()" 
+                            class="px-5 py-3 rounded-2xl text-base font-medium border border-zinc-700 focus:outline-none focus:border-emerald-500">
+                        <option value="all">All 7 Days</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+                </div>
+
+                <!-- Meal Type Filters -->
+                <div class="flex-1">
+                    <p class="text-zinc-400 text-sm mb-2 font-medium">FILTER MEALS</p>
+                    <div class="flex flex-wrap gap-2" id="mealFilters">
+                        <button onclick="toggleMealFilter(this)" data-type="all" 
+                                class="filter-btn active bg-emerald-600 hover:bg-emerald-500 px-5 py-2 rounded-2xl text-sm font-medium">All Meals</button>
+                        <button onclick="toggleMealFilter(this)" data-type="breakfast" 
+                                class="filter-btn bg-zinc-800 hover:bg-zinc-700 px-5 py-2 rounded-2xl text-sm font-medium">Breakfast</button>
+                        <button onclick="toggleMealFilter(this)" data-type="midmorning" 
+                                class="filter-btn bg-zinc-800 hover:bg-zinc-700 px-5 py-2 rounded-2xl text-sm font-medium">Mid-Morning</button>
+                        <button onclick="toggleMealFilter(this)" data-type="lunch" 
+                                class="filter-btn bg-zinc-800 hover:bg-zinc-700 px-5 py-2 rounded-2xl text-sm font-medium">Lunch</button>
+                        <button onclick="toggleMealFilter(this)" data-type="evensnack" 
+                                class="filter-btn bg-zinc-800 hover:bg-zinc-700 px-5 py-2 rounded-2xl text-sm font-medium">Evening Snack</button>
+                        <button onclick="toggleMealFilter(this)" data-type="dinner" 
+                                class="filter-btn bg-zinc-800 hover:bg-zinc-700 px-5 py-2 rounded-2xl text-sm font-medium">Dinner</button>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="flex gap-3">
+                    <button onclick="markAllDone()" 
+                            class="bg-zinc-800 hover:bg-zinc-700 px-6 py-3 rounded-2xl flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-check-double"></i> Mark Visible Done
+                    </button>
+                    <button onclick="resetAll()" 
+                            class="bg-red-900/50 hover:bg-red-900 px-6 py-3 rounded-2xl flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-rotate"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Exercise (Always Visible) -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-semibold mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-person-running text-emerald-400"></i>
+                DAILY EXERCISE (Same Every Day – Morning Empty Stomach)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-zinc-900 rounded-3xl p-6 meal-card">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-emerald-900/50 rounded-2xl flex items-center justify-center text-3xl">🧘</div>
+                        <div>
+                            <h3 class="font-semibold">Kapalbhati + Breathing (10 min)</h3>
+                            <p class="text-zinc-400 text-sm">3–5 rounds (60 exhales each) + 5 min Anulom-Vilom</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-zinc-900 rounded-3xl p-6 meal-card">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-emerald-900/50 rounded-2xl flex items-center justify-center text-3xl">🌞</div>
+                        <div>
+                            <h3 class="font-semibold">Surya Namaskar (15–25 min)</h3>
+                            <p class="text-zinc-400 text-sm">12–24 rounds (build up slowly)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-zinc-900 rounded-3xl p-6 meal-card">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-emerald-900/50 rounded-2xl flex items-center justify-center text-3xl">⏩</div>
+                        <div>
+                            <h3 class="font-semibold">Skipping Rope (15–20 min)</h3>
+                            <p class="text-zinc-400 text-sm">300–500 jumps (30 sec on / 30 sec off)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-zinc-500 text-xs mt-4">Burns ~450–600 kcal • Do 7 days a week</p>
+        </div>
+
+        <!-- Weekly Diet Plan -->
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-semibold flex items-center gap-2">
+                <i class="fa-solid fa-utensils text-emerald-400"></i>
+                DIET PLAN
+            </h2>
+            <div id="currentDayTitle" class="text-emerald-400 font-medium text-lg"></div>
+        </div>
+
+        <div id="weeklyPlan" class="space-y-8">
+            <!-- Dynamically filled by JS -->
+        </div>
+    </div>
+
+    <script>
+        const weekData = [
+            { day: "Monday",    date: "Day 1",  meals: [
+                { type: "breakfast", time: "8:00 AM", name: "2 Moong Dal Cheela + Green Chutney + Cucumber Salad", kcal: "320" },
+                { type: "midmorning", time: "11:00 AM", name: "Low-fat Chaas + 6 soaked almonds", kcal: "140" },
+                { type: "lunch", time: "1:30 PM", name: "2 small whole-wheat roti + Moong Dal + Bhindi Sabzi + Big Salad + ½ cup curd", kcal: "450" },
+                { type: "evensnack", time: "4:30 PM", name: "1 Apple + Green Tea", kcal: "120" },
+                { type: "dinner", time: "7:30 PM", name: "Lauki Soup + Mixed Veg Sabzi + Salad (no roti)", kcal: "280" }
+            ]},
+            { day: "Tuesday",   date: "Day 2",  meals: [
+                { type: "breakfast", time: "8:00 AM", name: "Vegetable Oats (lots of veggies) + ½ cup low-fat curd", kcal: "310" },
+                { type: "midmorning", time: "11:00 AM", name: "Green Tea + Handful roasted makhana", kcal: "130" },
+                { type: "lunch", time: "1:30 PM", name: "1 small roti + Arhar Dal + Palak Sabzi + Salad + curd", kcal: "440" },
+                { type: "evensnack", time: "4:30 PM", name: "1 Guava + Green Tea", kcal: "110" },
+                { type: "dinner", time: "7:30 PM", name: "Vegetable clear soup + Paneer Stir-fry + Salad", kcal: "290" }
+            ]},
+            { day: "Wednesday", date: "Day 3",  meals: [
+                { type: "breakfast", time: "8:00 AM", name: "2 Besan Cheela + Tomato-Onion Salad", kcal: "330" },
+                { type: "midmorning", time: "11:00 AM", name: "Low-fat Chaas + 5 almonds", kcal: "140" },
+                { type: "lunch", time: "1:30 PM", name: "½ cup brown rice + Masoor Dal + Cauliflower Sabzi + Salad + curd", kcal: "460" },
+                { type: "evensnack", time: "4:30 PM", name: "1 Orange + Green Tea", kcal: "130" },
+                { type: "dinner", time: "7:30 PM", name: "Moong Dal + Beans Sabzi + Big Salad", kcal: "270" }
+            ]},
+            { day: "Thursday",  date: "Day 4",  meals: [
+                { type: "breakfast", time: "8:00 AM", name: "Low-oil Paneer Bhurji + Cucumber", kcal: "310" },
+                { type: "midmorning", time: "11:00 AM", name: "Green Tea + Roasted Chana", kcal: "150" },
+                { type: "lunch", time: "1:30 PM", name: "2 small roti + Chana Dal + Lauki Sabzi + Salad + curd", kcal: "430" },
+                { type: "evensnack", time: "4:30 PM", name: "1 Pear + Green Tea", kcal: "120" },
+                { type: "dinner", time: "7:30 PM", name: "Vegetable Soup + Tofu/Mixed Veg + Salad", kcal: "280" }
+            ]},
+            { day: "Friday",    date: "Day 5",  meals: [
+                { type: "breakfast", time: "8:00 AM", name: "Sprouts Salad + ½ cup curd + lemon", kcal: "290" },
+                { type: "midmorning", time: "11:00 AM", name: "Buttermilk + 6 almonds", kcal: "140" },
+                { type: "lunch", time: "1:30 PM", name: "1 small roti + Moong Dal + Mixed Veg Sabzi + Salad + curd", kcal: "445" },
+                { type: "evensnack", time: "4:30 PM", name: "1 Apple + Green Tea", kcal: "120" },
+                { type: "dinner", time: "7:30 PM", name: "Clear Veg Soup + Bhindi Sabzi + Salad", kcal: "275" }
+            ]},
+            { day: "Saturday",  date: "Day 6",  meals: [
+                { type: "breakfast", time: "8:00 AM", name: "Vegetable Poha (no potato) + curd", kcal: "320" },
+                { type: "midmorning", time: "11:00 AM", name: "Green Tea + Makhana", kcal: "130" },
+                { type: "lunch", time: "1:30 PM", name: "½ cup brown rice + Arhar Dal + Cabbage Sabzi + Salad + curd", kcal: "455" },
+                { type: "evensnack", time: "4:30 PM", name: "1 Guava + Green Tea", kcal: "110" },
+                { type: "dinner", time: "7:30 PM", name: "Dal + Palak Sabzi + Big Salad", kcal: "290" }
+            ]},
+            { day: "Sunday",    date: "Day 7",  meals: [
+                { type: "breakfast", time: "8:00 AM", name: "2 Moong Dal Cheela + Salad", kcal: "320" },
+                { type: "midmorning", time: "11:00 AM", name: "Low-fat Chaas + almonds", kcal: "140" },
+                { type: "lunch", time: "1:30 PM", name: "2 small roti + Chana Dal + Mixed Sabzi + Salad + curd", kcal: "440" },
+                { type: "evensnack", time: "4:30 PM", name: "1 Orange + Green Tea", kcal: "130" },
+                { type: "dinner", time: "7:30 PM", name: "Light Veg Soup + Paneer + Salad", kcal: "280" }
+            ]}
+        ];
+
+        let currentMealFilter = 'all';
+        let currentDayFilter = 'all';
+
+        function toggleMealFilter(btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active', 'bg-emerald-600'));
+            btn.classList.add('active', 'bg-emerald-600');
+            currentMealFilter = btn.dataset.type;
+            renderPlan();
+        }
+
+        function filterByDay() {
+            currentDayFilter = document.getElementById('dayFilter').value;
+            document.getElementById('currentDayTitle').textContent = 
+                currentDayFilter === 'all' ? '' : currentDayFilter;
+            renderPlan();
+        }
+
+        function toggleComplete(checkbox, mealId) {
+            const meal = document.getElementById(mealId);
+            if (checkbox.checked) {
+                meal.classList.add('completed');
+            } else {
+                meal.classList.remove('completed');
+            }
+        }
+
+        function markAllDone() {
+            if (confirm("Mark all visible meals as completed?")) {
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    if (cb.offsetParent !== null) { // only visible ones
+                        cb.checked = true;
+                        const meal = document.getElementById(cb.dataset.mealId);
+                        if (meal) meal.classList.add('completed');
+                    }
+                });
+            }
+        }
+
+        function resetAll() {
+            if (confirm("Reset all progress?")) {
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = false;
+                    const meal = document.getElementById(cb.dataset.mealId);
+                    if (meal) meal.classList.remove('completed');
+                });
+            }
+        }
+
+        function renderPlan() {
+            const container = document.getElementById('weeklyPlan');
+            container.innerHTML = '';
+
+            const filteredDays = currentDayFilter === 'all' 
+                ? weekData 
+                : weekData.filter(d => d.day === currentDayFilter);
+
+            filteredDays.forEach((dayData, index) => {
+                let html = `
+                    <div class="bg-zinc-900 rounded-3xl overflow-hidden">
+                        <div class="day-header px-8 py-5 flex items-center justify-between text-white">
+                            <div class="flex items-center gap-4">
+                                <div class="text-4xl font-bold opacity-80">${dayData.day}</div>
+                                <div class="text-sm opacity-75">${dayData.date}</div>
+                            </div>
+                            <div class="text-sm bg-black/30 px-4 py-1 rounded-2xl">~1550 kcal</div>
+                        </div>
+                        <div class="p-6 space-y-4">
+                `;
+
+                dayData.meals.forEach(meal => {
+                    if (currentMealFilter !== 'all' && meal.type !== currentMealFilter) return;
+
+                    const id = `meal-${dayData.day}-${meal.type}`;
+                    html += `
+                        <div id="${id}" data-type="${meal.type}" class="meal-item meal-card bg-zinc-800 rounded-2xl p-5 flex gap-6 items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <span class="uppercase text-[10px] tracking-widest text-emerald-400 font-medium">${meal.type}</span>
+                                        <h4 class="font-semibold text-lg mt-1">${meal.name}</h4>
+                                        <p class="text-zinc-400 text-sm">${meal.time}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-mono text-2xl font-bold text-emerald-400">${meal.kcal}</div>
+                                        <div class="text-xs text-zinc-500">kcal</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" 
+                                       data-meal-id="${id}"
+                                       onchange="toggleComplete(this, '${id}')"
+                                       class="w-6 h-6 accent-emerald-500 cursor-pointer">
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div></div>`;
+                container.innerHTML += html;
+            });
+
+            if (filteredDays.length === 0) {
+                container.innerHTML = `<p class="text-center text-zinc-500 py-12">No meals match the selected filters.</p>`;
+            }
+        }
+
+        // Initialize
+        window.onload = () => {
+            renderPlan();
+            // Default meal filter: All
+            document.querySelector('[data-type="all"]').classList.add('active', 'bg-emerald-600');
+            document.getElementById('currentDayTitle').textContent = '';
+        };
+    </script>
+</body>
+</html>
